@@ -19,7 +19,8 @@ class ContratoController extends Controller
      */
     public function index()
     {
-        //
+        $contratos = Contrato::with(['plan', 'pagamentos'])->get();
+        return response()->json($contratos);
     }
 
     /**
