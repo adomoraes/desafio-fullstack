@@ -15,6 +15,10 @@ class UserController extends Controller
      */
     public function show()
     {
-        return User::find(1);
+        $user = User::find(1);
+        if ($user) {
+            $user->contrato_ativo = $user->getContratoAtivo();
+        }
+        return $user;
     }
 }
