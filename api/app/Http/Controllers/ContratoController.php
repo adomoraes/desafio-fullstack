@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contrato;
 use App\Models\Pagamento;
+use App\Models\Plan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,11 +38,32 @@ class ContratoController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // For simplicity, we're getting the first user as the "logged in" user
         $user = User::first();
+        $oldContrato = $user->getContratoAtivo();
+        $credit = 0;
 
-        // Deactivate all other contracts for this user
-        Contrato::where('user_id', $user->id)->update(['is_active' => false]);
+        if ($oldContrato) {
+            $oldContrato->load('plan');
+            $startDate = Carbon::parse($oldContrato->start_date);
+            $daysInMonth = $startDate->daysInMonth;
+            $dailyRate = $oldContrato->plan->price / $daysInMonth;
+            $daysUsed = now()->diffInDays($startDate);
+            
+            $credit = $oldContrato->plan->price - ($daysUsed * $dailyRate);
+            if ($credit < 0) {
+                $credit = 0;
+            }
+
+            $oldContrato->is_active = false;
+            $oldContrato->end_date = now();
+            $oldContrato->save();
+        }
+
+        $newPlan = Plan::find($request->plan_id);
+        $newAmount = $newPlan->price - $credit;
+        if ($newAmount < 0) {
+            $newAmount = 0;
+        }
 
         $contrato = Contrato::create([
             'user_id' => $user->id,
@@ -50,15 +72,14 @@ class ContratoController extends Controller
             'is_active' => true,
         ]);
 
-        $contrato->load('plan');
-
         Pagamento::create([
             'contrato_id' => $contrato->id,
-            'amount' => $contrato->plan->price,
+            'amount' => $newAmount,
             'due_date' => $contrato->start_date,
+            'credit_used' => $credit,
         ]);
 
-        return response()->json($contrato->load('pagamentos'), 201);
+        return response()->json($contrato->load('pagamentos', 'plan'), 201);
     }
 
     /**
