@@ -10,6 +10,15 @@ class Pagamento extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'contrato_id',
+        'amount',
+        'payment_date',
+        'due_date',
+        'status',
+        'credit_used',
+    ];
+
     public function contrato(): BelongsTo
     {
         return $this->belongsTo(Contrato::class);
