@@ -109,7 +109,26 @@ class ContratoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $contrato = Contrato::find($id);
+
+        if (!$contrato) {
+            return response()->json(['message' => 'Contrato not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'plan_id' => 'sometimes|exists:plans,id',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'sometimes|date|nullable',
+            'is_active' => 'sometimes|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $contrato->update($request->all());
+
+        return response()->json($contrato->load(['plan', 'pagamentos']));
     }
 
     /**
