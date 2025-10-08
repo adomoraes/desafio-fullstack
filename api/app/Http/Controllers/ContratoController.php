@@ -91,7 +91,13 @@ class ContratoController extends Controller
      */
     public function show($id)
     {
-        //
+        $contrato = Contrato::with(['plan', 'pagamentos'])->find($id);
+
+        if (!$contrato) {
+            return response()->json(['message' => 'Contrato not found'], 404);
+        }
+
+        return response()->json($contrato);
     }
 
     /**
