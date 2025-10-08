@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "a8a0c0d0-c0a0-4a0a-8a0a-0a0a0a0a0a0a",
+		"name": "Desafio Fullstack API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"description": "### Fluxo de Teste dos Endpoints\n\nEste é um guia passo a passo para testar os endpoints da API.\n\n**Pré-requisitos:**\n* A API deve estar rodando (ex: `php artisan serve` no diretório `api`).\n* O banco de dados deve estar configurado e as migrações executadas.\n\n**Passo 1: Verificar o status da API**\n1.  Execute a requisição \"Health Check\".\n2.  Você deve receber um status `200 OK` com a mensagem `{\"message\":\"ok\"}`.\n\n**Passo 2: Visualizar os planos**\n1.  Execute a requisição \"Get Plans\".\n2.  Você deve receber uma lista dos planos disponíveis.\n\n**Passo 3: Criar um contrato**\n1.  Execute a requisição \"Create Contrato\".\n2.  No corpo da requisição, você pode alterar o `plan_id` para um dos planos retornados no passo anterior.\n3.  Você deve receber um status `201 Created` com os dados do novo contrato.\n\n**Passo 4: Listar os contratos**\n1.  Execute a requisição \"Get Contratos\".\n2.  Você deve ver o contrato criado no passo anterior na lista.\n\n**Passo 5: Visualizar um contrato específico**\n1.  Execute a requisição \"Get Contrato\".\n2.  Altere o `id` no final da URL para o `id` do contrato que você criou.\n3.  Você deve receber os dados do contrato específico.\n\n**Passo 6: Atualizar um contrato**\n1.  Execute a requisição \"Update Contrato\".\n2.  Altere o `id` no final da URL para o `id` do contrato que você criou.\n3.  No corpo da requisição, você pode alterar o `is_active` para `false`, por exemplo.\n4.  Você deve receber os dados do contrato atualizado.\n\n**Passo 7: Excluir um contrato**\n1.  Execute a requisição \"Delete Contrato\".\n2.  Altere o `id` no final da URL para o `id` do contrato que você criou.\n3.  Você deve receber um status `204 No Content`.\n\n**Passo 8: Verificar a exclusão**\n1.  Execute a requisição \"Get Contratos\" novamente.\n2.  O contrato que você excluiu não deve mais aparecer na lista."
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": ["{{base_url}}"],
+					"path": [""]
+				},
+				"description": "Verifica o status da API."
+			},
+			"response": []
+		},
+		{
+			"name": "Plans",
+			"item": [
+				{
+					"name": "Get Plans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/plans",
+							"host": ["{{base_url}}"],
+							"path": ["plans"]
+						},
+						"description": "Retorna a lista de planos."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": ["{{base_url}}"],
+							"path": ["user"]
+						},
+						"description": "Retorna os dados do usuário autenticado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contratos",
+			"item": [
+				{
+					"name": "Get Contratos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contratos",
+							"host": ["{{base_url}}"],
+							"path": ["contratos"]
+						},
+						"description": "Retorna a lista de contratos."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contrato",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1,\n    \"plan_id\": 1,\n    \"start_date\": \"2025-10-07T15:00:00.000Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/contratos",
+							"host": ["{{base_url}}"],
+							"path": ["contratos"]
+						},
+						"description": "Cria um novo contrato."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contrato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contratos/1",
+							"host": ["{{base_url}}"],
+							"path": ["contratos", "1"]
+						},
+						"description": "Retorna os dados de um contrato específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contrato",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false,\n    \"end_date\": \"2026-10-07T15:00:00.000Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/contratos/1",
+							"host": ["{{base_url}}"],
+							"path": ["contratos", "1"]
+						},
+						"description": "Atualiza os dados de um contrato específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contrato",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contratos/1",
+							"host": ["{{base_url}}"],
+							"path": ["contratos", "1"]
+						},
+						"description": "Exclui um contrato específico."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api"
+		}
+	]
+}
