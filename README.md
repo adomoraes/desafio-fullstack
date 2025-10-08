@@ -87,10 +87,25 @@ Banco de dados Postgresql em docker, pronto para ser utilizado no Desafio.
 5. `php artisan db:seed`
 6. Executar com o comando: `php artisan serve`
 
+### Testando a API com Postman
+
+Para facilitar os testes dos endpoints da API, foi criada uma coleção do Postman que pode ser importada.
+
+**Como importar:**
+1.  Abra o Postman.
+2.  Clique em "Import".
+3.  Selecione o arquivo `postman_collection.json` que está na raiz do projeto.
+4.  A coleção "Desafio Fullstack API" estará disponível para uso.
+
+**Link para a coleção:**
+[postman_collection.json](postman_collection.json)
+
 ### Rotas já criadas:
 
 1. /api/plans - Retorna a lista de planos
 2. /api/user - Retorna o usuário "logado"
+
+Para uma lista completa de rotas e como testá-las, veja a seção "Testando a API com Postman" e a coleção do Postman.
 
 ## Extras
 
