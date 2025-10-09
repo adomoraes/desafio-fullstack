@@ -1,5 +1,6 @@
 import { useApi } from '../../hooks/useApi'
 import { PlanCard } from '../../components/PlanCard'
+import { CurrentPlan } from '../../components/CurrentPlan'
 
 interface Plan {
   id: number
@@ -26,7 +27,10 @@ export const Home = () => {
       <h1 className="text-orange-400 text-2xl mb-4">
         Desafio para Desenvolvedor - Inmediam
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <CurrentPlan />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
         {plans?.map((plan) => (
           <PlanCard key={plan.id} plan={plan} />
         ))}
