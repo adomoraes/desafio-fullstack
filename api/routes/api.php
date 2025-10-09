@@ -28,4 +28,5 @@ Route::apiResource('plans', PlanController::class, ['only' => 'index']);
 
 Route::apiSingleton('user', UserController::class, ['only' => 'show']);
 
+Route::get('contratos/calculate/{plan}', [ContratoController::class, 'calculate']);
 Route::apiResource('contratos', ContratoController::class);

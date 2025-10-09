@@ -131,6 +131,36 @@ class ContratoController extends Controller
         return response()->json($contrato->load(['plan', 'pagamentos']));
     }
 
+    public function calculate(Plan $plan)
+    {
+        $user = User::first();
+        $oldContrato = $user->getContratoAtivo();
+        $credit = 0;
+
+        if ($oldContrato) {
+            $oldContrato->load('plan');
+            $startDate = Carbon::parse($oldContrato->start_date);
+            $daysInMonth = $startDate->daysInMonth;
+            $dailyRate = $oldContrato->plan->price / $daysInMonth;
+            $daysUsed = now()->diffInDays($startDate);
+            
+            $credit = $oldContrato->plan->price - ($daysUsed * $dailyRate);
+            if ($credit < 0) {
+                $credit = 0;
+            }
+        }
+
+        $finalPrice = $plan->price - $credit;
+        if ($finalPrice < 0) {
+            $finalPrice = 0;
+        }
+
+        return response()->json([
+            'credit' => round($credit, 2),
+            'finalPrice' => round($finalPrice, 2),
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
