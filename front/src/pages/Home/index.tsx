@@ -1,6 +1,7 @@
 import { useApi } from '../../hooks/useApi'
 import { PlanCard } from '../../components/PlanCard'
 import { CurrentPlan } from '../../components/CurrentPlan'
+import { PlanHistory } from '../../components/PlanHistory'
 
 interface Plan {
   id: number
@@ -29,6 +30,7 @@ export const Home = () => {
       </h1>
 
       <CurrentPlan />
+      <PlanHistory />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
         {plans?.map((plan) => (
