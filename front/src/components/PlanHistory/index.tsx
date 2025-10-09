@@ -17,6 +17,18 @@ interface Contrato {
   is_active: boolean;
 }
 
+const ActiveIcon = () => (
+  <svg className="w-5 h-5 text-green-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+);
+
+const InactiveIcon = () => (
+  <svg className="w-5 h-5 text-red-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+    <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+);
+
 export const PlanHistory = () => {
   const { data: contratos, loading, error } = useApi<Contrato[]>('/contratos');
 
@@ -46,7 +58,12 @@ export const PlanHistory = () => {
               <td className="border px-4 py-2">{contrato.plan.description}</td>
               <td className="border px-4 py-2">{new Date(contrato.start_date).toLocaleDateString()}</td>
               <td className="border px-4 py-2">{contrato.end_date ? new Date(contrato.end_date).toLocaleDateString() : '-'}</td>
-              <td className="border px-4 py-2">{contrato.is_active ? 'Ativo' : 'Inativo'}</td>
+              <td className="border px-4 py-2">
+                <div className="flex items-center justify-center gap-2">
+                  {contrato.is_active ? <ActiveIcon /> : <InactiveIcon />}
+                  <span>{contrato.is_active ? 'Ativo' : 'Inativo'}</span>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
