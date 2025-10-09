@@ -42,7 +42,9 @@ export const PlanCard = ({
 			<p className='text-gray-600'>
 				{plan.gigabytesStorage} GB de armazenamento
 			</p>
-			<p className='text-4xl font-bold mt-4'>R$ {plan.price}</p>
+			<p className='text-4xl font-bold mt-4'>
+        R$ {plan.price} <span className="text-lg font-normal text-gray-500">/mês</span>
+      </p>
 			<button
 				onClick={handleSelectPlan}
 				disabled={isActivePlan}
