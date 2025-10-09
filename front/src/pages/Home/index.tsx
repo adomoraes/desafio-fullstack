@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { api } from '../../services/api'
+import { useApi } from '../../hooks/useApi'
 
 interface Plan {
   id: number
@@ -11,13 +10,15 @@ interface Plan {
 }
 
 export const Home = () => {
-  const [plans, setPlans] = useState<Plan[]>([])
+  const { data: plans, loading, error } = useApi<Plan[]>('/plans')
 
-  useEffect(() => {
-    api.get('/plans').then((response) => {
-      setPlans(response.data)
-    })
-  }, [])
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -25,7 +26,7 @@ export const Home = () => {
         Desafio para Desenvolvedor - Inmediam
       </h1>
       <div className="grid grid-cols-3 gap-4">
-        {plans.map((plan) => (
+        {plans?.map((plan) => (
           <div key={plan.id} className="border p-4 rounded">
             <h2 className="text-xl font-bold">{plan.description}</h2>
             <p>Clientes: {plan.numberOfClients}</p>
