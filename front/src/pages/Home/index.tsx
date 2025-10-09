@@ -52,9 +52,6 @@ export const Home = () => {
 	return (
 		<div className='flex flex-col items-center justify-center min-h-screen py-8'>
 			<h1 className='text-sky-900 text-2xl mb-4'>Dashboard de Planos</h1>
-
-			<PlanHistory />
-
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8'>
 				{plans?.map((plan) => (
 					<PlanCard
@@ -65,6 +62,8 @@ export const Home = () => {
 					/>
 				))}
 			</div>
+
+			<PlanHistory />
 		</div>
 	)
 }
