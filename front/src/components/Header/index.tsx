@@ -29,7 +29,7 @@ export const Header = () => {
 		)
 
 	return (
-		<header className='h-16 bg-yellow-400 text-black flex items-center justify-between px-8 fixed top-0 w-full'>
+		<header className='h-16 bg-yellow-400 text-black flex items-center justify-between px-8 fixed top-0 w-full z-10'>
 			<h1 className='text-xl font-bold'>
 				<img
 					src='https://www.inmediam.com.br/assets/images/logoInmediamPreto.png'
