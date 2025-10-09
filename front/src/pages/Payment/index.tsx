@@ -11,17 +11,9 @@ interface Plan {
 	active: boolean
 }
 
-interface User {
-	id: number
-	name: string
-	email: string
-	contrato_ativo: {
-		id: number
-		plan_id: number
-		user_id: number
-		is_active: boolean
-		start_date: string
-	} | null
+interface Calculation {
+	credit: number
+	finalPrice: number
 }
 
 export const Payment = () => {
@@ -33,17 +25,17 @@ export const Payment = () => {
 		loading: plansLoading,
 		error: plansError,
 	} = useApi<Plan[]>("/plans")
-	const {
-		data: user,
-		loading: userLoading,
-		error: userError,
-	} = useApi<User>("/user")
+
 	const { post: createContrato, loading: contratoLoading } =
 		useApi("/contratos")
 
+	const {
+		data: calculation,
+		loading: calculationLoading,
+		error: calculationError,
+	} = useApi<Calculation>(planId ? `/contratos/calculate/${planId}` : null)
+
 	const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
-	const [credit, setCredit] = useState(0)
-	const [finalPrice, setFinalPrice] = useState(0)
 
 	useEffect(() => {
 		if (plans && planId) {
@@ -51,42 +43,6 @@ export const Payment = () => {
 			setSelectedPlan(plan || null)
 		}
 	}, [plans, planId])
-
-	useEffect(() => {
-		if (user && user.contrato_ativo && plans && selectedPlan) {
-			const activePlan = plans.find(
-				(p) => p.id === user.contrato_ativo?.plan_id
-			)
-			if (activePlan) {
-				const startDate = new Date(user.contrato_ativo.start_date)
-				const daysInMonth = new Date(
-					startDate.getFullYear(),
-					startDate.getMonth() + 1,
-					0
-				).getDate()
-				const dailyRate = parseFloat(activePlan.price as any) / daysInMonth
-				const daysUsed = Math.floor(
-					(new Date().getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-				)
-
-				let calculatedCredit =
-					parseFloat(activePlan.price as any) - daysUsed * dailyRate
-				if (calculatedCredit < 0) {
-					calculatedCredit = 0
-				}
-				setCredit(calculatedCredit)
-
-				let newFinalPrice =
-					parseFloat(selectedPlan.price as any) - calculatedCredit
-				if (newFinalPrice < 0) {
-					newFinalPrice = 0
-				}
-				setFinalPrice(newFinalPrice)
-			}
-		} else if (selectedPlan) {
-			setFinalPrice(parseFloat(selectedPlan.price as any))
-		}
-	}, [user, plans, selectedPlan])
 
 	const handlePayment = async () => {
 		if (!planId) return
@@ -99,20 +55,20 @@ export const Payment = () => {
 		}
 	}
 
-	const loading = plansLoading || userLoading
+	const loading = plansLoading || calculationLoading
 
 	if (loading) {
 		return (
 			<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white'>
-				Loading...
+				Carregando resumo...
 			</div>
 		)
 	}
 
-	if (plansError || userError) {
+	if (plansError || calculationError) {
 		return (
 			<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white'>
-				Error loading data.
+				Erro ao carregar dados.
 			</div>
 		)
 	}
@@ -126,7 +82,9 @@ export const Payment = () => {
 	}
 
 	const creditPercentage =
-		selectedPlan.price > 0 ? (credit / selectedPlan.price) * 100 : 0
+		selectedPlan.price > 0 && calculation?.credit
+			? (calculation.credit / selectedPlan.price) * 100
+			: 0
 
 	return (
 		<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
@@ -136,15 +94,15 @@ export const Payment = () => {
 				<div className='border p-4 rounded-lg mb-4'>
 					<h3 className='text-xl font-semibold'>{selectedPlan.description}</h3>
 					<p className='text-2xl font-bold mt-2'>
-						R$ {parseFloat(selectedPlan.price as any).toFixed(2)}
+						R$ {Number(selectedPlan.price).toFixed(2)}
 						<span className='text-lg font-normal text-gray-500'>/mês</span>
 					</p>
 				</div>
 
-				{credit > 0 && (
+				{calculation?.credit && calculation.credit > 0 && (
 					<div className='mb-4'>
 						<h4 className='font-semibold'>Crédito do Plano Anterior:</h4>
-						<p className='text-green-600'>- R$ {credit.toFixed(2)}</p>
+						<p className='text-green-600'>- R$ {calculation.credit.toFixed(2)}</p>
 						<div className='w-full bg-gray-200 rounded-full h-2.5 mt-2'>
 							<div
 								className='bg-green-500 h-2.5 rounded-full'
@@ -155,7 +113,7 @@ export const Payment = () => {
 
 				<div className='text-xl font-bold mb-4'>
 					<span>Total a Pagar: </span>
-					<span>R$ {finalPrice.toFixed(2)}</span>
+					<span>R$ {calculation?.finalPrice?.toFixed(2) ?? "0.00"}</span>
 				</div>
 
 				<button
