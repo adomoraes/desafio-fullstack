@@ -76,6 +76,20 @@
 					"response": []
 				},
 				{
+					"name": "Calculate Plan Change",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/contratos/calculate/1",
+							"host": ["{{base_url}}"],
+							"path": ["contratos", "calculate", "1"]
+						},
+						"description": "Calcula o valor final e o crédito ao trocar para um novo plano. Altere o ID do plano no final da URL para testar com planos diferentes."
+					},
+					"response": []
+				},
+				{
 					"name": "Create Contrato",
 					"request": {
 						"method": "POST",
