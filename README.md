@@ -13,6 +13,7 @@
 </p>
 
 ### Por favor, faça fork desse repositório para iniciar o exercício!
+
 ### Tempo máximo esperado para resolução: 7 dias
 
 ## Descrição do Desafio
@@ -36,21 +37,23 @@ As contratações de plano que o usuário vai realizando deverão ser armazenada
 Cada pagamento que o usuário faz será armazenado numa tabela `payments`. Cada pagamento pertence a um contrato. Quando o usuário troca de plano, e o novo contrato é criado, será criado um ou mais pagamentos pendentes, um pagamento para cada mês, dependendo do crédito que o usuário tinha e do valor do novo plano que ele escolheu.
 
 ### Exemplo de troca de plano:
+
 > - Plano atual do usuário: R$ 100,00 por mês
 > - Data em que ele contratou: 01/09/2023
 > - No dia 15/09/2023, ele trocou para um plano de R$ 200,00 por mês
 > - Assim, o pagamento será gerado no valor de R$ 150,00 (ou seja, 200-50, pois ele teve um crédito de R$ 50,00 que ele não usou do plano anterior ao trocar no dia 15)
 
 #### Isso é apenas um exemplo, deve funcionar para qualquer dia do mês, e para troca de qualquer combinação de planos, tanto para um plano menor, quanto para um plano maior!
+
 #### A lógica do caso de troca de plano maior para menor faz parte do exercício!
 
 ## Tarefas
 
 - Exibição dos dados do usuário (não é necessário autenticação);
-- Exibição de todos os planos cadastrados no banco de dados, criar tela seguindo padrão da imagem a seguir:  <a target="_blank" href="https://ibb.co/2cPmjtw">Tela de planos</a>;
+- Exibição de todos os planos cadastrados no banco de dados, criar tela seguindo padrão da imagem a seguir: <a target="_blank" href="https://ibb.co/2cPmjtw">Tela de planos</a>;
 - Seleção e assinatura do plano com pagamento fictício (tipo Pix);
-- Exibir o plano atualmente contratado;
-- Alteração de plano para o caso do usuário já ter realizado uma assinatura.
+- Exibir o plano atualmente contratado;ok
+- Alteração de plano para o caso do usuário já ter realizado uma assinatura.ok
 
 ## 🔧 Configuração do ambiente
 
@@ -92,6 +95,7 @@ Banco de dados Postgresql em docker, pronto para ser utilizado no Desafio.
 Para facilitar os testes dos endpoints da API, foi criada uma coleção do Postman que pode ser importada.
 
 **Como importar:**
+
 1.  Abra o Postman.
 2.  Clique em "Import".
 3.  Selecione o arquivo `postman_collection.json` que está na raiz do projeto.
@@ -110,14 +114,14 @@ Para uma lista completa de rotas e como testá-las, veja a seção "Testando a A
 ## Extras
 
 - Exibir o histórico dos planos assinados pelo usuário, com os seguintes dados: <br/>
-  > descrição do plano  
-  > valor  
-  > desconto  
-  > data de pagamento
-- Utilizar o pré-processador de CSS Tailwind;
-- Estrutura de pastas e organização do código;
-- Utilização e criação de Hooks;
-- Utilizar Typescript corretamente;
-- Seguir os padrões do Laravel sempre que possível, especialmente na criação de: Rotas, Migrations, Models, Controllers;
-- Seguir o padrão REST para as rotas da API;
-- Manter o histórico dos commits e utilizar Conventional Commits Pattern.
+  > descrição do plano ok
+  > valor ok
+  > desconto ok
+  > data de pagamento ok
+- Utilizar o pré-processador de CSS Tailwind; OK
+- Estrutura de pastas e organização do código; OK
+- Utilização e criação de Hooks; OK
+- Utilizar Typescript corretamente; OK
+- Seguir os padrões do Laravel sempre que possível, especialmente na criação de: Rotas, Migrations, Models, Controllers; Ok
+- Seguir o padrão REST para as rotas da API; Ok
+- Manter o histórico dos commits e utilizar Conventional Commits Pattern. Ok
