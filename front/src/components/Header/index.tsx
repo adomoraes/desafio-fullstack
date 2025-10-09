@@ -29,8 +29,14 @@ export const Header = () => {
 		)
 
 	return (
-		<header className='h-16 bg-gray-900 text-white flex items-center justify-between px-8 fixed top-0 w-full'>
-			<h1 className='text-xl font-bold'>Inmediam</h1>
+		<header className='h-16 bg-yellow-400 text-black flex items-center justify-between px-8 fixed top-0 w-full'>
+			<h1 className='text-xl font-bold'>
+				<img
+					src='https://www.inmediam.com.br/assets/images/logoInmediamPreto.png'
+					alt='Inmediam Logo'
+					className='h-8'
+				/>
+			</h1>
 			<div>
 				<span>{user?.name}</span>
 			</div>
