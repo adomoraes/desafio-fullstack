@@ -1,4 +1,5 @@
 import { useApi } from '../../hooks/useApi'
+import { PlanCard } from '../../components/PlanCard'
 
 interface Plan {
   id: number
@@ -21,18 +22,13 @@ export const Home = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen py-8">
       <h1 className="text-orange-400 text-2xl mb-4">
         Desafio para Desenvolvedor - Inmediam
       </h1>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans?.map((plan) => (
-          <div key={plan.id} className="border p-4 rounded">
-            <h2 className="text-xl font-bold">{plan.description}</h2>
-            <p>Clientes: {plan.numberOfClients}</p>
-            <p>Armazenamento: {plan.gigabytesStorage} GB</p>
-            <p>Preço: R$ {plan.price}</p>
-          </div>
+          <PlanCard key={plan.id} plan={plan} />
         ))}
       </div>
     </div>
